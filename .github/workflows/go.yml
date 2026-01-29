@@ -28,8 +28,16 @@ jobs:
               uses: actions/setup-go@v6
               with:
                   go-version-file: "go.mod"
+              env:
+                GOPATH: ${{ github.workspace }}/go
+
+            - name: show go environment
+              run: go env
 
             - name: Install vuls-data-update
               run: go install ./cmd/vuls-data-update
               env:
                   GOEXPERIMENT: jsonv2
+
+            - name: Verify installation
+              run: vuls-data-update help
