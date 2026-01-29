@@ -7,6 +7,10 @@ jobs:
     run:
         name: Setup Go and install vuls-data-update
         runs-on: ubuntu-latest
+        env:
+            GOPATH: ${{ github.workspace }}/go
+            GOEXPERIMENT: jsonv2
+
         steps:
             - name: Maximize build space
               uses: easimon/maximize-build-space@v10
@@ -28,16 +32,11 @@ jobs:
               uses: actions/setup-go@v6
               with:
                   go-version-file: "go.mod"
-              env:
-                GOPATH: ${{ github.workspace }}/go
-
             - name: show go environment
               run: go env
 
             - name: Install vuls-data-update
               run: go install ./cmd/vuls-data-update
-              env:
-                  GOEXPERIMENT: jsonv2
 
             - name: Verify installation
               run: vuls-data-update help
